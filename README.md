@@ -66,6 +66,7 @@ Register in container:
 ```
 
 also you can add components aliases
+
 ```php
 
 'components'=>[
@@ -76,16 +77,20 @@ also you can add components aliases
 
   On fly usage
 
-  ```
+  ```php
+
       echo Yii::$app->multifs->listPrefixes();
       Yii::$app->multifs->mountFilesystem('special', new Filesystem(new Adapter(...)));
       Yii::$app->multifs->write('special://some/file/path/name.txt','Hello Test');
+      $fs = Yii::$app->multifs->getFilesystem('internal');
+      Vardumper::dump($fs->listConents('',true));
 
   ```
 
   Uploader
 
-  ```
+  ```php
+
      $file = \yii\web\UploadedFile::getInstanceByName('file');
      $path = Yii::$app->uploader->setFsPrefix('avatars')
                ->setFileNameStrategy(new insolita\multifs\strategy\filename\AsIsStrategy())
