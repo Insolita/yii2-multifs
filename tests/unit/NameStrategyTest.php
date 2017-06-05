@@ -5,7 +5,6 @@
 
 namespace tests\unit;
 
-use app\models\User;
 use Carbon\Carbon;
 use Codeception\Test\Unit;
 use Codeception\Util\Debug;
@@ -55,18 +54,18 @@ class NameStrategyTest extends Unit
     public function testRandomContextPrefixedStrategy()
     {
         $strategy = new RandomContextPrefixedStrategy();
-        $identity = new User(['id' => 23]);
+        $identity = new DummyUser();
         $context = new Context('','dummy/index', ['id' => 33], $identity);
         $fileName = $strategy->resolveFileName($this->uploadedObject, $context);
         verify($fileName)->contains('dummy');
         verify($fileName)->contains('.txt');
-        verify($fileName)->contains('23');
+        verify($fileName)->contains('100500');
         
         $context = new Context('','', ['id' => 33], $identity);
         $fileName = $strategy->resolveFileName($this->uploadedObject, $context);
         verify($fileName)->notContains('dummy');
         verify($fileName)->contains('.txt');
-        verify($fileName)->contains('23');
+        verify($fileName)->contains('100500');
         
         $context = new Context('','dummy/index', ['id' => 33]);
         $fileName = $strategy->resolveFileName($this->uploadedObject, $context);
