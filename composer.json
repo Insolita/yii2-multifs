@@ -17,6 +17,7 @@
     },
     "require-dev": {
         "vlucas/phpdotenv": "*",
+        "nesbot/carbon": "1.*",
         "codeception/codeception": "^2.2.3",
         "codeception/verify": "~0.3.1",
         "codeception/specify": "~0.4.3"

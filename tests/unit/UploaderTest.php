@@ -141,7 +141,7 @@ class UploaderTest extends Unit
         $path = $uploader->save($this->uploadedObject);
         verify($path)->internalType('string');
         verify($path)->equals('fs1://a/b/c/resolvedName.dat');
-        list( $prefix,$relativePath) = explode($path, '://');
+        list( $prefix,$relativePath) = explode('://',$path);
         verify($this->fs->has($relativePath));
     }
     
@@ -157,8 +157,8 @@ class UploaderTest extends Unit
         );
         $result = $uploader->saveAll([$this->uploadedObject, $this->uploadedObject2]);
         verify($result)->count(2);
-        verify($result)->contains('a/b/c/file1.txt');
-        verify($result)->contains('a/b/c/file2.txt');
+        verify($result)->contains('fs1://a/b/c/file1.txt');
+        verify($result)->contains('fs1://a/b/c/file2.txt');
     }
     
     public function testDelete()
@@ -342,7 +342,8 @@ class UploaderTest extends Unit
                     $contextBuilder
                 );
                 $expectedPath = '1/fooBar.txt';
-                $path = $uploader->save($this->uploadedObject);
+                $path= $uploader->save($this->uploadedObject);
+                list($prefix,$path) = explode('://',$path);
                 verify($path)->internalType('string');
                 verify($path)->equals($expectedPath);
                 verify($this->fs->has($path));
