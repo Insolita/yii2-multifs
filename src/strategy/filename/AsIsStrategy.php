@@ -21,7 +21,7 @@ class AsIsStrategy implements IFileNameStrategy
      *
      * @return string
      */
-    public function resolveFileName(IFileObject $file, Context $context = null): string
+    public function resolveFileName(IFileObject $file, Context $context = null)
     {
         $targetName = $file->getPathInfo('basename');
         $file->setTargetFileName($targetName);

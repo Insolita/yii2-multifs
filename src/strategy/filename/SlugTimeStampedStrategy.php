@@ -22,7 +22,7 @@ class SlugTimeStampedStrategy implements IFileNameStrategy
      *
      * @return string
      */
-    public function resolveFileName(IFileObject $file, Context $context = null): string
+    public function resolveFileName(IFileObject $file, Context $context = null)
     {
         $ext = $file->getExtension() ?: $file->getExtensionByMimeType();
         $name = $file->getPathInfo('filename');
