@@ -36,9 +36,9 @@ class DeletePreviousExistsStrategy implements IFileSaveStrategy
         
         $stream = fopen($fileObject->getPath(), 'rb+');
         $streamParams['ContentType'] = $fileObject->getMimeType();
-        if($filesystem->writeStream($targetPath, $stream, $streamParams)){
-            $result =  $filesystem->get($targetPath);
-        }else{
+        if ($filesystem->writeStream($targetPath, $stream, $streamParams)) {
+            $result = $filesystem->get($targetPath);
+        } else {
             $result = false;
         }
         if (is_resource($stream)) {

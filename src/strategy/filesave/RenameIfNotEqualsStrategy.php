@@ -101,6 +101,7 @@ class RenameIfNotEqualsStrategy implements IFileSaveStrategy
      * @param \insolita\multifs\contracts\IFileObject $fileObject
      * @param \League\Flysystem\Handler|File          $targetFile
      * So,its primitive compare, you free for make better
+     *
      * @return bool
      */
     protected function isFileEquals(IFileObject $fileObject, Handler $targetFile)
@@ -115,5 +116,4 @@ class RenameIfNotEqualsStrategy implements IFileSaveStrategy
         }
         return $equals;
     }
-    
 }

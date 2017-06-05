@@ -7,7 +7,6 @@ namespace insolita\multifs\actions;
 
 use insolita\multifs\contracts\IMultifsManager;
 use yii\base\Action;
-use yii\base\InvalidConfigException;
 use yii\base\UserException;
 use yii\di\Instance;
 use yii\web\HttpException;
@@ -31,18 +30,18 @@ class ViewAction extends Action
     
     /**
      * @var string|callable
-    **/
+     **/
     public $forcePrefix;
     
     /**
      * @var bool
      */
     public $validatePrefix = false;
+    
     /**
      * @var bool
      */
     public $forDownload = false;
-
     
     /**
      *
@@ -61,14 +60,15 @@ class ViewAction extends Action
     
     /**
      * @throws \yii\web\HttpException
+     * @throws \yii\base\UserException
      * @return \yii\web\Response
      */
     public function run()
     {
         $path = \Yii::$app->request->get($this->pathParam);
-        $prefix = $this->forcePrefix?:\Yii::$app->request->get($this->prefixParam);
-        $fullPath = implode('://', [$prefix,$path]);
-        if($this->validatePrefix === true){
+        $prefix = $this->forcePrefix ?: \Yii::$app->request->get($this->prefixParam);
+        $fullPath = implode('://', [$prefix, $path]);
+        if ($this->validatePrefix === true) {
             if (!in_array($prefix, $this->multifs->listPrefixes())) {
                 throw new UserException('wrong prefix param');
             }
@@ -78,9 +78,9 @@ class ViewAction extends Action
         }
         /**
          * @var \League\Flysystem\File $fileHandler
-        **/
+         **/
         $fileHandler = $this->multifs->get($fullPath);
-        if(!$fileHandler->isFile()){
+        if (!$fileHandler->isFile()) {
             throw new HttpException(404);
         }
         return \Yii::$app->response->sendStreamAsFile(
@@ -92,5 +92,4 @@ class ViewAction extends Action
             ]
         );
     }
-    
 }

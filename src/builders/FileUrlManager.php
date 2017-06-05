@@ -10,7 +10,7 @@ use insolita\multifs\contracts\IFileUrlManager;
 /**
  * Class FileUrlManager
  */
-class FileUrlManager  implements IFileUrlManager
+class FileUrlManager implements IFileUrlManager
 {
     /**
      * @var bool|string
@@ -35,12 +35,11 @@ class FileUrlManager  implements IFileUrlManager
      */
     public function getFileUrl($path, $fsPrefix = false)
     {
-        if($fsPrefix){
-            $path =  implode(DIRECTORY_SEPARATOR, [$this->storageUrl,$fsPrefix,$path]);
-        }else{
-            $path =  implode(DIRECTORY_SEPARATOR, [$this->storageUrl,$path]);
+        if ($fsPrefix) {
+            $path = implode(DIRECTORY_SEPARATOR, [$this->storageUrl, $fsPrefix, $path]);
+        } else {
+            $path = implode(DIRECTORY_SEPARATOR, [$this->storageUrl, $path]);
         }
         return $path;
     }
-    
 }

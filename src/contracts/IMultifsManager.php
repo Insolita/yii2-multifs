@@ -5,7 +5,6 @@
 
 namespace insolita\multifs\contracts;
 
-use insolita\multifs\contracts\IFilesystemBuilder;
 use League\Flysystem\FilesystemInterface;
 
 interface IMultifsManager
@@ -26,6 +25,7 @@ interface IMultifsManager
      * Mount contracts.
      *
      * @param \League\Flysystem\FilesystemInterface[] $filesystems [:prefix => Filesystem,]
+     *
      * @return $this
      */
     public function mountFilesystems(array $filesystems);
@@ -33,8 +33,9 @@ interface IMultifsManager
     /**
      * Mount contracts.
      *
-     * @param string              $prefix
+     * @param string                                $prefix
      * @param \League\Flysystem\FilesystemInterface $filesystem
+     *
      * @return $this
      */
     public function mountFilesystem($prefix, FilesystemInterface $filesystem);
@@ -46,6 +47,7 @@ interface IMultifsManager
      * @return $this;
      */
     public function buildAndMountFilesystem($prefix, IFilesystemBuilder $builder);
+    
     /**
      * Get the filesystem with the corresponding prefix.
      *
@@ -102,7 +104,6 @@ interface IMultifsManager
      * @param string $to
      * @param array  $config
      *
-     *
      * @return bool
      */
     public function copy($from, $to, array $config = []);
@@ -120,7 +121,6 @@ interface IMultifsManager
     /**
      * @param string $directory
      * @param bool   $recursive
-     *
      *
      * @return array
      */

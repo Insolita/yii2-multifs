@@ -12,7 +12,6 @@ use yii\base\Action;
 use yii\base\DynamicModel;
 use yii\base\Event;
 use yii\base\InvalidConfigException;
-use yii\di\Instance;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\web\UploadedFile;
@@ -98,7 +97,7 @@ class UploadAction extends Action
     public function init()
     {
         parent::init();
-        if(!$this->uploader instanceof IUploader){
+        if (!$this->uploader instanceof IUploader) {
             throw new InvalidConfigException('Uploader must implement IUploader interface');
         }
         
@@ -139,20 +138,22 @@ class UploadAction extends Action
                             : (string)$this->fsPrefix;
                         $this->uploader->setFsPrefix($this->fsPrefix);
                     }
-                    if($this->baseUrl){
-                        $this->baseUrl = is_callable($this->baseUrl)?
-                            call_user_func($this->baseUrl, $this->fsPrefix):
+                    if ($this->baseUrl) {
+                        $this->baseUrl = is_callable($this->baseUrl)
+                            ?
+                            call_user_func($this->baseUrl, $this->fsPrefix)
+                            :
                             \Yii::getAlias($this->baseUrl);
                     }
                     $savedPath = $this->uploader->save($uploadedFile);
-                    list($prefix,$path) = explode('://', $savedPath);
+                    list($prefix, $path) = explode('://', $savedPath);
                     if ($prefix && $path) {
                         $output[$this->responseMap->baseUrlParam] = $this->baseUrl;
                         $output[$this->responseMap->pathParam] = $path;
                         $output[$this->responseMap->prefixParam] = $prefix;
                         $output[$this->responseMap->urlParam] = $this->baseUrl . '/' . $path;
                         $output[$this->responseMap->deleteUrlParam]
-                            = Url::to([$this->deleteRoute, 'path' => $path,'prefix'=>$prefix]);
+                            = Url::to([$this->deleteRoute, 'path' => $path, 'prefix' => $prefix]);
                         $paths = \Yii::$app->session->get($this->sessionKey, []);
                         $paths[] = $savedPath;
                         \Yii::$app->session->set($this->sessionKey, $paths);
@@ -160,7 +161,6 @@ class UploadAction extends Action
                         $output['error'] = true;
                         $output['errors'] = [];
                     }
-                    
                 } else {
                     $output['error'] = true;
                     $output['errors'] = $validationModel->errors;
@@ -190,5 +190,4 @@ class UploadAction extends Action
     {
         Event::on(get_class($this->uploader), IUploader::EVENT_AFTER_SAVE, $this->afterSaveCallback);
     }
-    
 }

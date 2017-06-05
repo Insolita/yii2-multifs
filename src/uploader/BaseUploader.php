@@ -47,7 +47,7 @@ abstract class BaseUploader implements IUploader
      * @var \insolita\multifs\contracts\IContextBuilder
      */
     protected $contextBuilder;
-
+    
     /**
      * @var \League\Flysystem\Filesystem
      */
@@ -131,17 +131,27 @@ abstract class BaseUploader implements IUploader
     abstract public function delete($path);
     
     /**
+     * @param array $files
+     */
+    public function deleteAll($files)
+    {
+        foreach ($files as $path) {
+            $this->delete($path);
+        }
+    }
+    
+    /**
      * @param \insolita\multifs\contracts\IFileObject $fileObject
      * @param                                         $targetPath
      */
     abstract protected function fireBeforeSaveEvent(IFileObject $fileObject, $targetPath);
     
     /**
-     * @param string                                  $targetPath
-     * @param bool                                    $isSuccess
-     * @param File|false                              $result
+     * @param string     $targetPath
+     * @param bool       $isSuccess
+     * @param File|false $result
      */
-    abstract protected function fireAfterSaveEvent($isSuccess,$result, $targetPath);
+    abstract protected function fireAfterSaveEvent($isSuccess, $result, $targetPath);
     
     /**
      * @param string $path
@@ -150,21 +160,9 @@ abstract class BaseUploader implements IUploader
     
     /**
      * @param string $path
-     * @param bool $isSuccess
+     * @param bool   $isSuccess
      */
     abstract protected function fireAfterDeleteEvent($path, $isSuccess);
-    
-    /**
-     * @param array $files
-     *
-     * @return bool
-     */
-    public function deleteAll($files)
-    {
-        foreach ($files as $path) {
-            $this->delete($path);
-        }
-    }
     
     /**
      * @return \insolita\multifs\strategy\filename\IFileNameStrategy|\insolita\multifs\strategy\filename\RandomStringStrategy
@@ -222,7 +220,7 @@ abstract class BaseUploader implements IUploader
     }
     
     /**
-     * @param IFileSaveStrategy $filePathStrategy
+     * @param IFileSaveStrategy $fileSaveStrategy
      *
      * @return $this
      */
@@ -232,19 +230,23 @@ abstract class BaseUploader implements IUploader
         return $this;
     }
     
+    /**
+     * @return \insolita\multifs\entity\Context
+     */
     protected function getContext()
     {
         if (!$this->context) {
-            
             $this->context = $this->getContextBuilder()->build();
         }
         return $this->context;
     }
     
+    /**
+     * @return \insolita\multifs\builders\ContextBuilder|\insolita\multifs\contracts\IContextBuilder|null
+     */
     protected function getContextBuilder()
     {
         if (!$this->contextBuilder) {
-            
             $this->contextBuilder = new ContextBuilder();
         }
         return $this->contextBuilder;
@@ -260,5 +262,4 @@ abstract class BaseUploader implements IUploader
         $this->contextBuilder = $contextBuilder;
         return $this;
     }
-    
 }

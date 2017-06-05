@@ -10,12 +10,24 @@ use League\Flysystem\Adapter\Local;
 use League\Flysystem\Filesystem;
 use yii\helpers\FileHelper;
 
+/**
+ * Trait TestFsBuildTrait
+ */
 trait TestFsBuildTrait
 {
+    /**
+     * @var string
+     */
     protected $tempDir = '@tests/unit/temp';
     
+    /**
+     * @var string
+     */
     protected $fspath1 = '@tests/unit/fspath1';
     
+    /**
+     * @var string
+     */
     protected $fspath2 =  '@tests/unit/fspath2';
     
     /**
@@ -38,6 +50,9 @@ trait TestFsBuildTrait
      */
     protected $uploadedObject2;
     
+    /**
+     *
+     */
     public function initFileTestEnv()
     {
         $this->tempDir = \Yii::getAlias($this->tempDir);
@@ -65,6 +80,9 @@ trait TestFsBuildTrait
         }
     }
     
+    /**
+     *
+     */
     public function clearFileTestEnv()
     {
         FileHelper::removeDirectory($this->fspath1);

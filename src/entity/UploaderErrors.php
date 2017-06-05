@@ -7,8 +7,14 @@ namespace insolita\multifs\entity;
 
 use yii\helpers\ArrayHelper;
 
+/**
+ * Class UploaderErrors
+ */
 class UploaderErrors
 {
+    /**
+     * @var array
+     */
     public static $variants
         = [
             UPLOAD_ERR_INI_SIZE   => 'The uploaded file exceeds the upload_max_filesize directive in php.ini',
@@ -21,6 +27,11 @@ class UploaderErrors
             UPLOAD_ERR_EXTENSION  => 'A PHP extension stopped the file upload.',
         ];
     
+    /**
+     * @param $error
+     *
+     * @return string|null
+     */
     public static function value($error)
     {
         return ArrayHelper::getValue(static::$variants, $error, null);

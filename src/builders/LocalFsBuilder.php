@@ -34,16 +34,12 @@ class LocalFsBuilder implements IFilesystemBuilder
      */
     public function build()
     {
-        $adapter = new Local($this->basePath,LOCK_EX, Local::DISALLOW_LINKS,[
-            'file' => [
-                'public' => 0744,
-                'private' => 0700,
-            ],
-            'dir' => [
-                'public' => 0755,
-                'private' => 0700,
+        $adapter = new Local($this->basePath, LOCK_EX, Local::DISALLOW_LINKS,
+            [
+                'file' => ['public'  => 0744,'private' => 0700,],
+                'dir'  => ['public'  => 0755,'private' => 0700],
             ]
-        ]);
+        );
         $fs = new Filesystem($adapter);
         return $fs;
     }

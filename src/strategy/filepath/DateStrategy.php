@@ -5,8 +5,8 @@
 
 namespace insolita\multifs\strategy\filepath;
 
-use insolita\multifs\entity\Context;
 use insolita\multifs\contracts\IFileObject;
+use insolita\multifs\entity\Context;
 use League\Flysystem\FilesystemInterface;
 
 /**
@@ -26,10 +26,8 @@ class DateStrategy implements IFilePathStrategy
         FilesystemInterface $filesystem,
         IFileObject $fileObject,
         Context $context = null
-    )
-    {
+    ) {
         $date = explode('-', date('Y-m-d', time()));
         return implode(DIRECTORY_SEPARATOR, $date) . DIRECTORY_SEPARATOR;
     }
-    
 }

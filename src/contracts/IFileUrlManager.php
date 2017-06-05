@@ -5,7 +5,16 @@
 
 namespace insolita\multifs\contracts;
 
+/**
+ * Interface IFileUrlManager
+ */
 interface IFileUrlManager
 {
+    /**
+     * @param      $path
+     * @param bool $fsPrefix
+     *
+     * @return string
+     */
     public function getFileUrl($path, $fsPrefix = false);
 }

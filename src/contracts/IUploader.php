@@ -39,7 +39,7 @@ interface IUploader
     public function setFilePathStrategy(IFilePathStrategy $filePathStrategy);
     
     /**
-     * @param IFileSaveStrategy $filePathStrategy
+     * @param IFileSaveStrategy $fileSaveStrategy
      *
      * @return $this
      */
@@ -76,8 +76,6 @@ interface IUploader
     
     /**
      * @param array $files
-     *
-     * @return bool
      */
     public function deleteAll($files);
 }

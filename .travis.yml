@@ -9,18 +9,6 @@ matrix:
   allow_failures:
     - php: 5.6
 
-services:
-  #- postgresql: "9.5"
-  - mysql
-  - redis-server
-
-#Uncomment this if you need postgres with json support
-#addons:
-#   postgresql: "9.5"
-#   apt:
-#     packages:
-#       - postgresql-server-dev-9.5
-
 # cache vendor dirs
 cache:
   directories:
@@ -38,10 +26,6 @@ install:
   - travis_retry composer install --prefer-dist --no-interaction
 
 before_script:
-#  - psql -c  'create database yii2_ext_test;' -U postgres
-#  - php tests/yii pgmigrate/up --interactive=0
-  - mysql -e 'CREATE DATABASE yii2_ext_test;'
-  - php tests/yii migrate/up --interactive=0
   - vendor/bin/codecept build
 script:
   - vendor/bin/codecept run -vvv

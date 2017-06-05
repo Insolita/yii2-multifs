@@ -20,16 +20,18 @@ interface IFileObject
      * @return string
      */
     public function getSize();
+    
     /**
      * @return string
      */
     public function getMimeType();
+    
     /**
-     * @param false|string $part
+     * @param bool|string $part
      *
      * @return mixed
      */
-    public function getPathInfo($part=false);
+    public function getPathInfo($part = false);
     
     /**
      * @return mixed
@@ -45,10 +47,9 @@ interface IFileObject
      * @return string|null
      */
     public function getTargetFileName();
+    
     /**
      * @var string
-    **/
+     **/
     public function setTargetFileName($fileName);
-    
-    
 }

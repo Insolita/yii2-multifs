@@ -5,12 +5,11 @@
 
 namespace insolita\multifs\strategy\filename;
 
-use insolita\multifs\entity\Context;
 use insolita\multifs\contracts\IFileObject;
+use insolita\multifs\entity\Context;
 
 /**
  * Class AsIsStrategy
- *
  */
 class AsIsStrategy implements IFileNameStrategy
 {
@@ -27,5 +26,4 @@ class AsIsStrategy implements IFileNameStrategy
         $file->setTargetFileName($targetName);
         return $targetName;
     }
-    
 }

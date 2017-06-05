@@ -5,8 +5,8 @@
 
 namespace insolita\multifs\strategy\filepath;
 
-use insolita\multifs\entity\Context;
 use insolita\multifs\contracts\IFileObject;
+use insolita\multifs\entity\Context;
 use League\Flysystem\FilesystemInterface;
 
 /**
@@ -52,8 +52,7 @@ class DirLimitationStrategy implements IFilePathStrategy
         FilesystemInterface $filesystem,
         IFileObject $fileObject,
         Context $context = null
-    )
-    {
+    ) {
         $dirIndex = $this->getDirIndex($filesystem);
         return $dirIndex . DIRECTORY_SEPARATOR;
     }
@@ -79,5 +78,4 @@ class DirLimitationStrategy implements IFilePathStrategy
         }
         return $this->dirIndex;
     }
-    
 }

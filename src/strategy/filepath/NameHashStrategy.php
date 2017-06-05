@@ -5,13 +5,12 @@
 
 namespace insolita\multifs\strategy\filepath;
 
-use insolita\multifs\entity\Context;
 use insolita\multifs\contracts\IFileObject;
+use insolita\multifs\entity\Context;
 use League\Flysystem\FilesystemInterface;
 
 /**
  * Class NameHashStrategy
- *
  */
 class NameHashStrategy implements IFilePathStrategy
 {
@@ -51,5 +50,4 @@ class NameHashStrategy implements IFilePathStrategy
         }
         return implode(DIRECTORY_SEPARATOR, $pathParts) . DIRECTORY_SEPARATOR;
     }
-    
 }

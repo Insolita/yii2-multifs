@@ -7,8 +7,6 @@ namespace insolita\multifs\strategy\filesave;
 
 use insolita\multifs\contracts\IFileObject;
 use insolita\multifs\strategy\filename\IFileNameStrategy;
-use insolita\multifs\strategy\filesave\IFileSaveStrategy;
-use League\Flysystem\FileExistsException;
 use League\Flysystem\FilesystemInterface;
 
 /**
@@ -34,9 +32,9 @@ class OverwriteExistsStrategy implements IFileSaveStrategy
     ) {
         $stream = fopen($fileObject->getPath(), 'rb+');
         $streamParams['ContentType'] = $fileObject->getMimeType();
-        if($filesystem->putStream($targetPath, $stream, $streamParams)){
+        if ($filesystem->putStream($targetPath, $stream, $streamParams)) {
             $result = $filesystem->get($targetPath);
-        }else{
+        } else {
             $result = false;
         }
         if (is_resource($stream)) {
@@ -44,5 +42,4 @@ class OverwriteExistsStrategy implements IFileSaveStrategy
         }
         return $result;
     }
-    
 }

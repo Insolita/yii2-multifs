@@ -53,7 +53,7 @@ class Context
     /**
      * @return string
      */
-    public function getRoute(): string
+    public function getRoute()
     {
         return $this->route;
     }
@@ -61,7 +61,7 @@ class Context
     /**
      * @return array
      */
-    public function getParams(): array
+    public function getParams()
     {
         return $this->params;
     }

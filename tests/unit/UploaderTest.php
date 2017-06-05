@@ -29,6 +29,11 @@ use League\Flysystem\File;
 use League\Flysystem\Filesystem;
 use yii\base\Event;
 
+/**
+ * Class UploaderTest
+ *
+ * @mixin \tests\unit\TestFsBuildTrait
+ */
 class UploaderTest extends Unit
 {
     use Specify;
@@ -39,6 +44,9 @@ class UploaderTest extends Unit
      **/
     protected $tester;
     
+    /**
+     *
+     */
     public function testInitialization()
     {
         $multifs = new MultiFsManager(['fs1' => $this->fs, 'fs2' => $this->fs2]);
@@ -96,6 +104,9 @@ class UploaderTest extends Unit
         
     }
     
+    /**
+     *
+     */
     public function testSave()
     {
         $multifs = new MultiFsManager(['fs1' => $this->fs, 'fs2' => $this->fs2]);
@@ -141,10 +152,13 @@ class UploaderTest extends Unit
         $path = $uploader->save($this->uploadedObject);
         verify($path)->internalType('string');
         verify($path)->equals('fs1://a/b/c/resolvedName.dat');
-        list( $prefix,$relativePath) = explode('://',$path);
+        list($prefix, $relativePath) = explode('://', $path);
         verify($this->fs->has($relativePath));
     }
     
+    /**
+     *
+     */
     public function testSaveAll()
     {
         $multifs = new MultiFsManager(['fs1' => $this->fs, 'fs2' => $this->fs2]);
@@ -161,6 +175,9 @@ class UploaderTest extends Unit
         verify($result)->contains('fs1://a/b/c/file2.txt');
     }
     
+    /**
+     *
+     */
     public function testDelete()
     {
         $path = '/a/b/deleteMe.txt';
@@ -174,6 +191,9 @@ class UploaderTest extends Unit
         verify($this->fs->has($path))->false();
     }
     
+    /**
+     *
+     */
     public function testDeleteAll()
     {
         $path1 = '/a/b/deleteMe.txt';
@@ -193,6 +213,9 @@ class UploaderTest extends Unit
         verify($this->fs->has($path2))->false();
     }
     
+    /**
+     *
+     */
     public function testSaveEvents()
     {
         $multifs = new MultiFsManager(['fs1' => $this->fs, 'fs2' => $this->fs2]);
@@ -259,6 +282,9 @@ class UploaderTest extends Unit
         verify($alternativeTrigger)->true();
     }
     
+    /**
+     *
+     */
     public function testDeleteEvents()
     {
         $path = '/a/b/deleteMe.txt';
@@ -302,6 +328,9 @@ class UploaderTest extends Unit
         verify($alternativeTrigger)->true();
     }
     
+    /**
+     *
+     */
     public function testAlternativeContext()
     {
         $this->specify(
@@ -342,8 +371,8 @@ class UploaderTest extends Unit
                     $contextBuilder
                 );
                 $expectedPath = '1/fooBar.txt';
-                $path= $uploader->save($this->uploadedObject);
-                list($prefix,$path) = explode('://',$path);
+                $path = $uploader->save($this->uploadedObject);
+                list($prefix, $path) = explode('://', $path);
                 verify($path)->internalType('string');
                 verify($path)->equals($expectedPath);
                 verify($this->fs->has($path));
@@ -352,12 +381,18 @@ class UploaderTest extends Unit
         
     }
     
+    /**
+     *
+     */
     protected function _before()
     {
         Event::offAll();
         $this->initFileTestEnv();
     }
     
+    /**
+     *
+     */
     protected function _after()
     {
         $this->clearFileTestEnv();

@@ -13,11 +13,18 @@ use insolita\multifs\MultiFsManager;
 use League\Flysystem\FileNotFoundException;
 use League\Flysystem\FilesystemNotFoundException;
 
+/**
+ * Class MultiFsTest
+ * @mixin \tests\unit\TestFsBuildTrait
+ */
 class MultiFsTest extends Unit
 {
     use Specify;
     use TestFsBuildTrait;
     
+    /**
+     *
+     */
     public function testBuildAndMount()
     {
         $multifs = new MultiFsManager();
@@ -28,6 +35,9 @@ class MultiFsTest extends Unit
         verify($multifs->has('temp://test.txt'));
     }
     
+    /**
+     *
+     */
     public function testMounts()
     {
         $this->fs->put('fs1file.txt', 'dummy');
@@ -67,12 +77,15 @@ class MultiFsTest extends Unit
                 verify($multifsList[0])->hasKey('filesystem');
                 verify($directFsList[0])->hasntKey('filesystem');
                 unset($multifsList[0]['filesystem']);
-    
+                
                 verify($multifsList)->equals($directFsList);
                 
-                Debug::debug([
-                    'multifsContents'=>$multifsList,
-                    'directfsContents'=>$directFsList]);
+                Debug::debug(
+                    [
+                        'multifsContents'  => $multifsList,
+                        'directfsContents' => $directFsList,
+                    ]
+                );
                 
                 $multifs->put('fspath1://some/path/new.txt', 'foobarbaz');
                 $dir = $this->fs->get('some');
@@ -84,7 +97,7 @@ class MultiFsTest extends Unit
         $this->specify(
             'wrong fs',
             function () use ($multifs) {
-                $unexisted = $multifs->getFilesystem('foo');
+                $multifs->getFilesystem('foo');
             },
             ['throws' => FilesystemNotFoundException::class]
         );
@@ -106,11 +119,17 @@ class MultiFsTest extends Unit
         );
     }
     
+    /**
+     *
+     */
     protected function _before()
     {
         $this->initFileTestEnv();
     }
     
+    /**
+     *
+     */
     protected function _after()
     {
         $this->clearFileTestEnv();

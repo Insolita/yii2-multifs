@@ -6,46 +6,50 @@
 namespace insolita\multifs\entity;
 
 use insolita\multifs\contracts\IFileObject;
-use yii\web\UploadedFile as YiiUpload;
 use yii\base\InvalidConfigException;
 use yii\base\InvalidParamException;
 use yii\base\Object;
 use yii\helpers\FileHelper;
 use yii\helpers\StringHelper;
+use yii\web\UploadedFile as YiiUpload;
 
 /**
  * Class UploadedFile based on Class File from trntv\filekit
  *
  * @author Eugene Terentev <eugene@terentev.net>
  */
-class UploadedFile extends Object  implements IFileObject
+class UploadedFile extends Object implements IFileObject
 {
     /**
      * @var string
      */
     protected $path;
+    
     /**
      * @var string
      */
     protected $extension;
+    
     /**
      * @var
      */
     protected $size;
+    
     /**
      * @var string
      */
     protected $mimeType;
     
     /**
-     * @var
+     * @var array
      */
     protected $pathinfo;
+    
     /**
      * @var string
      */
     protected $targetFileName;
-    
+
     /**
      * @throws InvalidConfigException
      */
@@ -55,52 +59,6 @@ class UploadedFile extends Object  implements IFileObject
             throw new InvalidConfigException();
         }
     }
-    /**
-     * @param $file string|\yii\web\UploadedFile
-     * @return self|object
-     * @throws \yii\base\InvalidParamException
-     */
-    public static function create($file)
-    {
-        
-        if (is_a($file, self::class)) {
-            return $file;
-        }
-        
-        // UploadedFile
-        if (is_a($file, YiiUpload::class)) {
-            if ($file->error) {
-                throw new InvalidParamException("File upload error \"{$file->error}\"");
-            }
-            return \Yii::createObject([
-                                          'class'=>self::class,
-                                          'path'=>$file->tempName,
-                                          'extension'=>$file->getExtension()
-                                      ]);
-        } // Path
-        else {
-            return \Yii::createObject([
-                                          'class' => self::class,
-                                          'path' => FileHelper::normalizePath($file),
-                                          'targetFileName' => StringHelper::basename($file)
-                                      ]);
-        }
-    }
-    /**
-     * @param array $files
-     * @return self[]
-     * @throws \yii\base\InvalidConfigException
-     */
-    public static function createAll(array $files)
-    {
-        $result = [];
-        foreach ($files as $file) {
-            $result[] = self::create($file);
-        }
-        return $result;
-    }
-    
-
     
     /**
      * @return string|null
@@ -124,6 +82,14 @@ class UploadedFile extends Object  implements IFileObject
     public function getPath()
     {
         return $this->path;
+    }
+    
+    /**
+     * @param $path
+     */
+    public function setPath($path)
+    {
+        $this->path = $path;
     }
     
     /**
@@ -161,6 +127,14 @@ class UploadedFile extends Object  implements IFileObject
     }
     
     /**
+     * @param $extension
+     */
+    public function setExtension($extension)
+    {
+        $this->extension = $extension;
+    }
+    
+    /**
      * @return mixed
      */
     public function getExtensionByMimeType()
@@ -170,7 +144,8 @@ class UploadedFile extends Object  implements IFileObject
     }
     
     /**
-     * @param bool $part
+     * @param bool|string $part
+     *
      * @return mixed|null
      */
     public function getPathInfo($part = false)
@@ -185,27 +160,54 @@ class UploadedFile extends Object  implements IFileObject
     }
     
     /**
-     * @param $path
+     * @param $file string|\yii\web\UploadedFile
+     *
+     * @return self|object
+     * @throws \yii\base\InvalidParamException
      */
-    public function setPath($path)
+    public static function create($file)
     {
-        $this->path = $path;
+        
+        if (is_a($file, self::class)) {
+            return $file;
+        }
+        
+        // UploadedFile
+        if (is_a($file, YiiUpload::class)) {
+            if ($file->error) {
+                throw new InvalidParamException("File upload error \"{$file->error}\"");
+            }
+            return \Yii::createObject(
+                [
+                    'class'     => self::class,
+                    'path'      => $file->tempName,
+                    'extension' => $file->getExtension(),
+                ]
+            );
+        } // Path
+        else {
+            return \Yii::createObject(
+                [
+                    'class'          => self::class,
+                    'path'           => FileHelper::normalizePath($file),
+                    'targetFileName' => StringHelper::basename($file),
+                ]
+            );
+        }
     }
     
     /**
-     * @param $extension
+     * @param array $files
+     *
+     * @return self[]
+     * @throws \yii\base\InvalidConfigException
      */
-    public function setExtension($extension)
+    public static function createAll(array $files)
     {
-        $this->extension = $extension;
+        $result = [];
+        foreach ($files as $file) {
+            $result[] = self::create($file);
+        }
+        return $result;
     }
-    
-    /**
-     * @return bool
-     */
-    public function hasErrors()
-    {
-        return $this->error !== false;
-    }
-    
 }

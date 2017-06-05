@@ -15,13 +15,12 @@ use insolita\multifs\strategy\filesave\ExceptionSaveExistsStrategy;
 use insolita\multifs\strategy\filesave\OverwriteExistsStrategy;
 use insolita\multifs\strategy\filesave\RenameIfNotEqualsStrategy;
 use insolita\multifs\strategy\filesave\RenameOnExistsStrategy;
-use League\Flysystem\Adapter\Local;
 use League\Flysystem\FileExistsException;
-use League\Flysystem\Filesystem;
 use yii\helpers\FileHelper;
 
 /**
  * Class SaveStrategyTest
+ * @mixin \tests\unit\TestFsBuildTrait
  */
 class SaveStrategyTest extends Unit
 {
@@ -33,19 +32,24 @@ class SaveStrategyTest extends Unit
      **/
     protected $tester;
     
-    
+    /**
+     *
+     */
     public function testInitial()
     {
-        Debug::debug([
-            'Inintal test env',
-            'tempDir'=>$this->tempDir,
-            'fspath1'=>$this->fspath1,
-            'fspath2'=>$this->fspath2
-                     ]);
+        Debug::debug(
+            [
+                'Inintal test env',
+                'tempDir' => $this->tempDir,
+                'fspath1' => $this->fspath1,
+                'fspath2' => $this->fspath2,
+            ]
+        );
         Debug::debug($this->fs->listContents($this->tempDir));
         Debug::debug(FileHelper::findFiles($this->tempDir));
         Debug::debug($this->fs->listContents());
     }
+    
     /**
      *
      */
@@ -90,13 +94,14 @@ class SaveStrategyTest extends Unit
                 verify($content)->contains('Hello test');
             }
         );
-    
+        
         $this->specify(
             'saveExisted',
             function () {
                 $strategy = new ExceptionSaveExistsStrategy();
                 $strategy->save($this->fs, $this->uploadedObject, new AsIsStrategy(), 'test.txt');
-            },['throws'=>FileExistsException::class]
+            },
+            ['throws' => FileExistsException::class]
         );
     }
     
@@ -138,10 +143,14 @@ class SaveStrategyTest extends Unit
         $targetName = $nameStartegy->resolveFileName($this->uploadedObject);
         $this->specify(
             'saveNotExisted',
-            function () use($targetName) {
+            function () use ($targetName) {
                 $strategy = new RenameOnExistsStrategy();
-                $resultFile = $strategy->save($this->fs, $this->uploadedObject, new RandomStringStrategy(),
-                                              $targetName);
+                $resultFile = $strategy->save(
+                    $this->fs,
+                    $this->uploadedObject,
+                    new RandomStringStrategy(),
+                    $targetName
+                );
                 verify($this->fs->has($targetName))->true();
                 verify($resultFile->getPath())->contains($targetName);
                 Debug::debug($resultFile->getPath());
@@ -150,11 +159,15 @@ class SaveStrategyTest extends Unit
         );
         $this->specify(
             'saveExisted',
-            function () use($targetName) {
+            function () use ($targetName) {
                 verify($this->fs->has($targetName))->true();
                 $strategy = new RenameOnExistsStrategy();
-                $resultFile = $strategy->save($this->fs, $this->uploadedObject,  new RandomStringStrategy(),
-                                             $targetName);
+                $resultFile = $strategy->save(
+                    $this->fs,
+                    $this->uploadedObject,
+                    new RandomStringStrategy(),
+                    $targetName
+                );
                 Debug::debug($resultFile->getPath());
                 verify($this->fs->has($targetName))->true();
                 verify($resultFile->getPath())->notContains($targetName);
@@ -171,10 +184,14 @@ class SaveStrategyTest extends Unit
         $targetName = $nameStartegy->resolveFileName($this->uploadedObject);
         $this->specify(
             'saveNotExisted',
-            function () use($targetName) {
+            function () use ($targetName) {
                 $strategy = new RenameIfNotEqualsStrategy();
-                $resultFile = $strategy->save($this->fs, $this->uploadedObject, new RandomStringStrategy(),
-                                              $targetName);
+                $resultFile = $strategy->save(
+                    $this->fs,
+                    $this->uploadedObject,
+                    new RandomStringStrategy(),
+                    $targetName
+                );
                 verify($this->fs->has($targetName))->true();
                 verify($resultFile->getPath())->contains($targetName);
                 verify($this->fs->listContents())->count(1);
@@ -182,11 +199,15 @@ class SaveStrategyTest extends Unit
         );
         $this->specify(
             'saveEquals',
-            function () use($targetName) {
+            function () use ($targetName) {
                 verify($this->fs->has($targetName))->true();
                 $strategy = new RenameIfNotEqualsStrategy();
-                $resultFile = $strategy->save($this->fs, $this->uploadedObject,  new RandomStringStrategy(),
-                                              $targetName);
+                $resultFile = $strategy->save(
+                    $this->fs,
+                    $this->uploadedObject,
+                    new RandomStringStrategy(),
+                    $targetName
+                );
                 Debug::debug($resultFile->getPath());
                 verify($this->fs->has($targetName))->true();
                 verify($resultFile->getPath())->contains($targetName);
@@ -195,13 +216,20 @@ class SaveStrategyTest extends Unit
         );
         $this->specify(
             'saveEqualsNameButNotEquals',
-            function () use($targetName) {
+            function () use ($targetName) {
                 verify($this->fs->has($targetName))->true();
-                $this->fs->put($targetName, 'Test change content for different file size, '
-                                          .'so file has equals name but not equals content');
+                $this->fs->put(
+                    $targetName,
+                    'Test change content for different file size, '
+                    . 'so file has equals name but not equals content'
+                );
                 $strategy = new RenameIfNotEqualsStrategy();
-                $resultFile = $strategy->save($this->fs, $this->uploadedObject,  new RandomStringStrategy(),
-                                              $targetName);
+                $resultFile = $strategy->save(
+                    $this->fs,
+                    $this->uploadedObject,
+                    new RandomStringStrategy(),
+                    $targetName
+                );
                 Debug::debug($resultFile->getPath());
                 verify($this->fs->has($targetName))->true();
                 verify($resultFile->getPath())->notContains($targetName);

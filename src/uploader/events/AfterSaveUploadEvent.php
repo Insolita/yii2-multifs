@@ -13,6 +13,7 @@ class AfterSaveUploadEvent extends Event
      * @var string
      */
     public $fsPrefix;
+    
     /**
      * @var bool
      */

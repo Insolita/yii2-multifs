@@ -5,13 +5,12 @@
 
 namespace insolita\multifs\strategy\filename;
 
-use insolita\multifs\entity\Context;
 use insolita\multifs\contracts\IFileObject;
+use insolita\multifs\entity\Context;
 use yii\helpers\Inflector;
 
 /**
  * Class SlugTimeStampedStrategy
- *
  */
 class SlugTimeStampedStrategy implements IFileNameStrategy
 {
@@ -41,5 +40,4 @@ class SlugTimeStampedStrategy implements IFileNameStrategy
     {
         return Inflector::slug($string, '_');
     }
-    
 }

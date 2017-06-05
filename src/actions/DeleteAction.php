@@ -20,10 +20,12 @@ class DeleteAction extends Action
      * @var string path request param
      */
     public $pathParam = 'path';
+    
     /**
      * @var string path request param
      */
     public $prefixParam = 'prefix';
+    
     /**
      * @var \insolita\multifs\contracts\IUploader $uploader
      */
@@ -62,7 +64,7 @@ class DeleteAction extends Action
         if ($this->afterDeleteCallback) {
             $this->attachAfterDeleteEvent();
         }
-        if($this->forcePrefix && is_callable($this->forcePrefix)){
+        if ($this->forcePrefix && is_callable($this->forcePrefix)) {
             $this->forcePrefix = call_user_func($this->forcePrefix);
         }
     }
@@ -74,8 +76,8 @@ class DeleteAction extends Action
     public function run()
     {
         $path = \Yii::$app->request->get($this->pathParam);
-        $prefix = $this->forcePrefix?:\Yii::$app->request->get($this->prefixParam);
-        $fullPath = implode('://', [$prefix,$path]);
+        $prefix = $this->forcePrefix ?: \Yii::$app->request->get($this->prefixParam);
+        $fullPath = implode('://', [$prefix, $path]);
         $paths = \Yii::$app->session->get($this->sessionKey, []);
         if (in_array($fullPath, $paths, true)) {
             $this->uploader->setFsPrefix($prefix);
@@ -96,5 +98,4 @@ class DeleteAction extends Action
     {
         Event::on(get_class($this->uploader), IUploader::EVENT_AFTER_DELETE, $this->afterDeleteCallback);
     }
-    
 }

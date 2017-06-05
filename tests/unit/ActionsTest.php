@@ -22,6 +22,10 @@ use yii\web\Session;
 use yii\web\UploadedFile;
 use yii\web\UrlManager;
 
+/**
+ * Class ActionsTest
+ * @mixin \tests\unit\TestFsBuildTrait
+ */
 class ActionsTest extends Unit
 {
     use Specify;

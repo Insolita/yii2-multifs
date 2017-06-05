@@ -36,5 +36,4 @@ class RandomStringStrategy implements IFileNameStrategy
     {
         return \Yii::$app->security->generateRandomString();
     }
-    
 }

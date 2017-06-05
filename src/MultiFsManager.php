@@ -5,8 +5,8 @@
 
 namespace insolita\multifs;
 
-use insolita\multifs\contracts\IMultifsManager;
 use insolita\multifs\contracts\IFilesystemBuilder;
+use insolita\multifs\contracts\IMultifsManager;
 use League\Flysystem\MountManager;
 
 /**

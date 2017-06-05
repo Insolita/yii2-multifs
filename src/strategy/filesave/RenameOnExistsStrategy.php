@@ -48,7 +48,7 @@ class RenameOnExistsStrategy implements IFileSaveStrategy
         $streamParams = []
     ) {
         if ($filesystem->has($targetPath)) {
-           $targetPath = $this->getRenamedValidPath($filesystem, $fileObject, $fileNameStrategy, $targetPath);
+            $targetPath = $this->getRenamedValidPath($filesystem, $fileObject, $fileNameStrategy, $targetPath);
         }
         $stream = fopen($fileObject->getPath(), 'rb+');
         $streamParams['ContentType'] = $fileObject->getMimeType();
@@ -90,5 +90,4 @@ class RenameOnExistsStrategy implements IFileSaveStrategy
         }
         return $targetPath;
     }
-    
 }

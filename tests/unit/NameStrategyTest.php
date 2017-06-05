@@ -14,10 +14,17 @@ use insolita\multifs\strategy\filename\RandomContextPrefixedStrategy;
 use insolita\multifs\strategy\filename\RandomStringStrategy;
 use insolita\multifs\strategy\filename\SlugTimeStampedStrategy;
 
+/**
+ * Class NameStrategyTest
+ * @mixin \tests\unit\TestFsBuildTrait
+ */
 class NameStrategyTest extends Unit
 {
     use TestFsBuildTrait;
     
+    /**
+     *
+     */
     public function testInitial()
     {
         Debug::debug($this->uploadedObject);
@@ -26,6 +33,9 @@ class NameStrategyTest extends Unit
         Debug::debug($this->uploadedObject->getExtensionByMimeType());
     }
     
+    /**
+     *
+     */
     public function testAsIsStrategy()
     {
         $strategy = new AsIsStrategy();
@@ -33,6 +43,9 @@ class NameStrategyTest extends Unit
         verify($fileName)->equals('test.txt');
     }
     
+    /**
+     *
+     */
     public function testRandomStringStrategy()
     {
         $strategy = new RandomStringStrategy();
@@ -41,6 +54,9 @@ class NameStrategyTest extends Unit
         verify(strlen($fileName))->greaterOrEquals(32);
     }
     
+    /**
+     *
+     */
     public function testSlugTimestampedStrategy()
     {
         $strategy = new SlugTimeStampedStrategy();
@@ -51,23 +67,26 @@ class NameStrategyTest extends Unit
         verify($fileName)->equals('test_' . $time . '.txt');
     }
     
+    /**
+     *
+     */
     public function testRandomContextPrefixedStrategy()
     {
         $strategy = new RandomContextPrefixedStrategy();
         $identity = new DummyUser();
-        $context = new Context('','dummy/index', ['id' => 33], $identity);
+        $context = new Context('', 'dummy/index', ['id' => 33], $identity);
         $fileName = $strategy->resolveFileName($this->uploadedObject, $context);
         verify($fileName)->contains('dummy');
         verify($fileName)->contains('.txt');
         verify($fileName)->contains('100500');
         
-        $context = new Context('','', ['id' => 33], $identity);
+        $context = new Context('', '', ['id' => 33], $identity);
         $fileName = $strategy->resolveFileName($this->uploadedObject, $context);
         verify($fileName)->notContains('dummy');
         verify($fileName)->contains('.txt');
         verify($fileName)->contains('100500');
         
-        $context = new Context('','dummy/index', ['id' => 33]);
+        $context = new Context('', 'dummy/index', ['id' => 33]);
         $fileName = $strategy->resolveFileName($this->uploadedObject, $context);
         verify($fileName)->contains('dummy');
         verify($fileName)->contains('.txt');
@@ -77,11 +96,17 @@ class NameStrategyTest extends Unit
         verify($fileName)->notContains('dummy');
     }
     
+    /**
+     *
+     */
     protected function _before()
     {
         $this->initFileTestEnv();
     }
     
+    /**
+     *
+     */
     protected function _after()
     {
         $this->clearFileTestEnv();
