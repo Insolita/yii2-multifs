@@ -1,6 +1,6 @@
 {
     "name": "insolita/yii2-multifs",
-    "description": "Multifs Manager based on (League\Flysystem\MountManager) for work with set of filesystems.",
+    "description": "Multifs Manager based on (League\\Flysystem\\MountManager) for work with set of filesystems.",
     "type": "yii2-extension",
     "keywords": ["yii2","filesystem","flysystem","uploader"],
     "license": "MIT",
