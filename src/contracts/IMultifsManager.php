@@ -116,7 +116,7 @@ interface IMultifsManager
      *
      * @return mixed
      */
-    public function __call($method, $arguments);
+    public function __call($method, array $arguments);
     
     /**
      * @param string $directory

@@ -5,13 +5,13 @@
 
 namespace insolita\multifs\entity;
 
-use yii\base\Object;
+use yii\base\BaseObject;
 use yii\web\Response;
 
 /**
  * Class UploaderResponse
  */
-class UploaderResponse extends Object
+class UploaderResponse extends BaseObject
 {
     /**
      * @var string

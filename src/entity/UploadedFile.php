@@ -8,7 +8,7 @@ namespace insolita\multifs\entity;
 use insolita\multifs\contracts\IFileObject;
 use yii\base\InvalidConfigException;
 use yii\base\InvalidParamException;
-use yii\base\Object;
+use yii\base\BaseObject;
 use yii\helpers\FileHelper;
 use yii\helpers\StringHelper;
 use yii\web\UploadedFile as YiiUpload;
@@ -18,7 +18,7 @@ use yii\web\UploadedFile as YiiUpload;
  *
  * @author Eugene Terentev <eugene@terentev.net>
  */
-class UploadedFile extends Object implements IFileObject
+class UploadedFile extends BaseObject implements IFileObject
 {
     /**
      * @var string
