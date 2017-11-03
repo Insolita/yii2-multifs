@@ -13,7 +13,7 @@
     "require": {
         "php":">=5.6",
         "yiisoft/yii2": "~2.0.13",
-        "league/flysystem": "^1.0"
+        "league/flysystem": "1.0.*"
     },
     "repositories": [
         {
@@ -23,10 +23,10 @@
     ],
     "require-dev": {
         "vlucas/phpdotenv": "*",
-        "nesbot/carbon": "1.*",
-        "codeception/codeception": "^2.2.3",
-        "codeception/verify": "~0.3.1",
-        "codeception/specify": "~0.4.3"
+        "nesbot/carbon": "1.22.*",
+        "codeception/codeception": "2.3.*",
+        "codeception/verify": "0.4.*",
+        "codeception/specify": "0.4.*"
     },
     "suggest": {},
     "autoload": {
